@@ -9,6 +9,7 @@ export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        rol: '',
         password: '',
         password_confirmation: '',
     });
@@ -25,7 +26,7 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
+            <form onSubmit={submit} noValidate>
                 <div>
                     <InputLabel htmlFor="name" value="Nombre Completo" />
 
@@ -58,6 +59,18 @@ export default function Register() {
                     />
 
                     <InputError message={errors.email} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="rol" value="Tipo de cuenta" />
+
+                    <select onChange={(e) => setData('rol', e.target.value)} className='rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 w-full' id='rol' name='rol'>
+                        <option value={''}>Selecciona un rol</option>
+                        <option value={1}>Developer - Obtener empleo</option>
+                        <option value={2}>Reclutador - Publicar empleos</option>
+                    </select>
+
+                    <InputError message={errors.rol} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
