@@ -4,8 +4,9 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
-export default function Dashboard() {
+export default function Dashboard({ salarios, categorias }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         titulo: "",
         salario: "",
@@ -15,7 +16,25 @@ export default function Dashboard() {
         descripcion: "",
         imagen: "",
     });
-    const submit = () => {};
+
+    const [fileName, setFileName] = useState("");
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        setData("imagen", file);
+        setFileName(file ? file.name : "");
+    };
+
+    const submit = (e) => {
+        e.preventDefault();
+        console.log(data);
+        post(route('vacantes_store'), {
+            onFinish:()=>{
+                console.log("Listo");
+            }
+        })
+    };
 
     return (
         <AuthenticatedLayout
@@ -103,12 +122,15 @@ export default function Dashboard() {
                                     }
                                 >
                                     <option value="">-- Seleccione --</option>
-                                    <option value="1000-2000">
-                                        $1,000 - $2,000
-                                    </option>
-                                    <option value="2000-3000">
-                                        $2,000 - $3,000
-                                    </option>
+
+                                    {salarios.map((salario) => (
+                                        <option
+                                            key={salario.id}
+                                            value={salario.id}
+                                        >
+                                            {salario.salario}
+                                        </option>
+                                    ))}
                                 </select>
                                 <InputError
                                     message={errors.salario}
@@ -126,8 +148,15 @@ export default function Dashboard() {
                                     }
                                 >
                                     <option value="">-- Seleccione --</option>
-                                    <option value="TI">TI</option>
-                                    <option value="Marketing">Marketing</option>
+
+                                    {categorias.map((categoria) => (
+                                        <option
+                                            key={categoria.id}
+                                            value={categoria.id}
+                                        >
+                                            {categoria.categoria}
+                                        </option>
+                                    ))}
                                 </select>
                                 <InputError
                                     message={errors.categoria}
@@ -137,13 +166,31 @@ export default function Dashboard() {
 
                             <div>
                                 <InputLabel value="Imagen" />
-                                <input
-                                    type="file"
-                                    className="w-full mt-1"
-                                    onChange={(e) =>
-                                        setData("imagen", e.target.files[0])
-                                    }
-                                />
+                                <div className="mt-1 space-y-2">
+                                    <label
+                                        htmlFor="imagen"
+                                        className="cursor-pointer flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition"
+                                    >
+                                        📁 Subir imagen
+                                    </label>
+
+                                    <input
+                                        id="imagen"
+                                        type="file"
+                                        className="hidden"
+                                        onChange={handleFileChange}
+                                    />
+
+                                    {fileName && (
+                                        <p className="text-gray-600 text-sm">
+                                            Archivo seleccionado:{" "}
+                                            <span className="font-medium">
+                                                {fileName}
+                                            </span>
+                                        </p>
+                                    )}
+                                </div>
+
                                 <InputError
                                     message={errors.imagen}
                                     className="mt-2"

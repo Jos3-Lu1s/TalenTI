@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Salario;
+use App\Models\Categoria;
+use App\Models\Vacante;
+use Illuminate\Support\Facades\Auth;
 
 class VacanteController extends Controller
 {
@@ -20,7 +24,10 @@ class VacanteController extends Controller
      */
     public function create()
     {
-        return Inertia::render('vacantes/create');
+        return Inertia::render('vacantes/create', [
+            'salarios' => Salario::all(),
+            'categorias' => Categoria::all(),
+        ]);
     }
 
     /**
@@ -28,7 +35,30 @@ class VacanteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titulo' => 'required',
+            'salario' => 'required',
+            'categoria' => 'required',
+            'empresa' => 'required',
+            'ultimo_dia' => 'required|date',
+            'descripcion' => 'required',
+            'imagen' => 'required|image|max:2048',
+        ]);
+
+        $nombreImagen = $request->file('imagen')->hashName();
+
+        Vacante::create([
+            'titulo' => $request->titulo,
+            'salario_id' => $request->salario,
+            'categoria_id' => $request->categoria,
+            'empresa' => $request->empresa,
+            'ultimo_dia' => $request->ultimo_dia,
+            'descripcion' => $request->descripcion,
+            'imagen' => $nombreImagen,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('dashboard');
     }
 
     /**
