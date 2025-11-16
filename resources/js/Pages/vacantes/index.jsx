@@ -1,8 +1,35 @@
 import Pagination from "@/Components/Pagination";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
+import Swal from "sweetalert2";
+import { showToast } from '@/utils/toast';
 
 export default function Dashboard({ vacantes }) {
+    const { delete: eliminarVacante } = useForm();
+
+    const mostrarAlerta = (id) => {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: `Estás a punto de eliminar el ítem con ID: ${id}. ¿Deseas continuar?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarVacante(route("vacantes_delete", id), {
+                    onSuccess: () => {
+                        showToast(`El ítem con ID: ${id} ha sido eliminado.`);
+                    },
+                    onError: () => {
+                        showToast("Hubo un problema al intentar eliminar el ítem.","error",'#f27474');
+                    },
+                });
+            }
+        });
+    };
+
     return (
         <AuthenticatedLayout
             header={
@@ -47,7 +74,10 @@ export default function Dashboard({ vacantes }) {
                                                         </a>
 
                                                         <a
-                                                            href={route('vacantes_edit', item.id)}
+                                                            href={route(
+                                                                "vacantes_edit",
+                                                                item.id
+                                                            )}
                                                             className="px-3 py-1.5 text-xs bg-indigo-500 text-white rounded-md hover:bg-indigo-600 w-full sm:w-auto"
                                                         >
                                                             Editar
@@ -55,6 +85,11 @@ export default function Dashboard({ vacantes }) {
 
                                                         <a
                                                             href="#"
+                                                            onClick={() =>
+                                                                mostrarAlerta(
+                                                                    item.id
+                                                                )
+                                                            }
                                                             className="px-3 py-1.5 text-xs bg-red-500 text-white rounded-md hover:bg-red-600 w-full sm:w-auto"
                                                         >
                                                             Eliminar

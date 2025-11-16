@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Salario;
 use App\Models\Categoria;
 use App\Models\Vacante;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
 class VacanteController extends Controller
@@ -67,7 +68,7 @@ class VacanteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Vacante $vacante)
     {
         //
     }
@@ -77,6 +78,7 @@ class VacanteController extends Controller
      */
     public function edit(Vacante $vacante)
     {
+        Gate::authorize('update', $vacante);
         return Inertia::render('vacantes/edit', [
             'vacante' => $vacante,
             'salarios' => Salario::all(),
@@ -130,6 +132,8 @@ class VacanteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $vacante = Vacante::findOrFail($id);
+        $vacante->delete();
+        return redirect()->back();
     }
 }

@@ -5,6 +5,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useState } from "react";
+import { showToast } from '@/utils/toast';
 
 export default function Dashboard({ salarios, categorias }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -27,11 +28,11 @@ export default function Dashboard({ salarios, categorias }) {
         if (file) {
             const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
             if (!allowedTypes.includes(file.type)) {
-                alert("Solo se permiten imágenes de tipo JPEG, PNG o GIF.");
+                showToast("Solo se permiten imágenes de tipo JPEG, PNG o GIF.","error",'#f27474');
                 return;
             }
             if (file.size > 5 * 1024 * 1024) {
-                alert("El tamaño de la imagen debe ser menor a 5MB.");
+                showToast("El tamaño de la imagen debe ser menor a 5MB.","error",'#f27474');
                 return;
             }
 
