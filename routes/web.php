@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacanteController;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,8 @@ Route::get('/vacantes/{vacante}/edit', [VacanteController::class, 'edit'])->midd
 Route::post('/vacantes/{vacante}', [VacanteController::class, 'update'])->middleware(['auth', 'verified'])->name('vacantes_update');
 Route::delete('/vacantes/{vacante}', [VacanteController::class, 'destroy'])->middleware(['auth', 'verified'])->name('vacantes_delete');
 Route::get('/vacantes/{vacante}', [VacanteController::class, 'show'])->name('vacantes_show');
+
+Route::post('/vacantes', [CandidatoController::class, 'store'])->name('candidatos_store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

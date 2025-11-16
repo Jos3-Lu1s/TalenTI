@@ -1,9 +1,38 @@
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
 export default function Dashboard({ vacante }) {
-    console.log(vacante);
     const user = usePage().props.auth.user;
+
+    const [fileName, setFileName] = useState("");
+
+    const { data, setData, post, processing, errors, reset } = useForm({
+        cv: null,
+        vacante_id: vacante?.id ?? null,
+    });
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setData("cv", file);
+            setFileName(file.name);
+        }
+    };
+
+    const submit = (e) => {
+        e.preventDefault();
+        post(route("candidatos_store"), {
+            onSuccess: () => {
+                reset("cv");
+                setFileName("");
+            },
+        });
+    };
+
     return (
         <AuthenticatedLayout
             header={
@@ -64,14 +93,78 @@ export default function Dashboard({ vacante }) {
                                         </span>
                                     </div>
                                 </div>
+                                {user.rol === 1 && (
+                                    <form
+                                        noValidate
+                                        onSubmit={submit}
+                                        className="bg-white p-6 rounded-lg shadow-lg space-y-4"
+                                    >
+                                        <h2 className="text-2xl font-semibold text-center text-gray-800">
+                                            Sube tu CV
+                                        </h2>
 
-                                {user ? (
-                                    <div>
-                                        <button className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all duration-200">
-                                            Postúlate Ahora
-                                        </button>
-                                    </div>
-                                ) : (
+                                        <div className="flex justify-center items-center bg-gray-100 p-4 rounded-md border-2 border-dashed border-gray-300 hover:border-blue-500 transition">
+                                            <InputLabel
+                                                htmlFor="cv"
+                                                className="cursor-pointer flex items-center gap-2 text-lg text-gray-600 hover:text-blue-600"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="w-6 h-6"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth="2"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M12 4v16m8-8H4"
+                                                    />
+                                                </svg>
+                                                <span className="font-medium">
+                                                    Haz clic para subir
+                                                </span>
+                                            </InputLabel>
+
+                                            <input
+                                                id="cv"
+                                                name="cv"
+                                                type="file"
+                                                className="hidden"
+                                                accept="application/pdf"
+                                                onChange={handleFileChange}
+                                            />
+                                        </div>
+
+                                        {fileName && (
+                                            <div className="text-sm text-gray-700 mt-2">
+                                                <strong>
+                                                    Archivo seleccionado:
+                                                </strong>{" "}
+                                                {fileName}
+                                            </div>
+                                        )}
+
+                                        {!fileName && (
+                                            <div className="text-sm text-gray-500 mt-2">
+                                                Aún no has cargado un CV. Por
+                                                favor, haz clic en el área de
+                                                arriba para subirlo.
+                                            </div>
+                                        )}
+                                        <InputError
+                                            message={errors.cv}
+                                            className="mt-2"
+                                        />
+                                        <div>
+                                            <PrimaryButton className="w-full px-6 py-3">
+                                                Postúlate Ahora
+                                            </PrimaryButton>
+                                        </div>
+                                    </form>
+                                )}
+                                {!user && (
                                     <div className="mt-6 text-center">
                                         <p className="text-gray-700 text-lg">
                                             ¿Deseas postularte a esta vacante?{" "}
