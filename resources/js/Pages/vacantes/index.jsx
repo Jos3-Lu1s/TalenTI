@@ -47,7 +47,7 @@ export default function Dashboard({ vacantes }) {
                                                         </a>
 
                                                         <a
-                                                            href="#"
+                                                            href={route('vacantes_edit', item.id)}
                                                             className="px-3 py-1.5 text-xs bg-indigo-500 text-white rounded-md hover:bg-indigo-600 w-full sm:w-auto"
                                                         >
                                                             Editar

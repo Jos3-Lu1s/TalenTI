@@ -1,12 +1,12 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
+import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { useState } from "react";
+import { Head, useForm } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
-export default function Dashboard({ salarios, categorias }) {
+export default function Dashboard({ vacante, salarios, categorias }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         titulo: "",
         salario: "",
@@ -17,6 +17,23 @@ export default function Dashboard({ salarios, categorias }) {
         imagen: "",
     });
 
+    useEffect(() => {
+        console.log(vacante);
+        console.log(salarios);
+        console.log(categorias);
+        if (vacante) {
+            setData({
+                titulo: vacante.titulo,
+                salario: vacante.salario_id,
+                categoria: vacante.categoria_id,
+                empresa: vacante.empresa,
+                ultimo_dia: vacante.ultimo_dia,
+                descripcion: vacante.descripcion,
+                imagen: vacante.imagen,
+            });
+        }
+    }, [vacante]);
+
     const [fileName, setFileName] = useState("");
 
     const handleFileChange = (e) => {
@@ -26,21 +43,13 @@ export default function Dashboard({ salarios, categorias }) {
         setFileName(file ? file.name : "");
     };
 
-    const submit = (e) => {
-        e.preventDefault();
-        console.log(data);
-        post(route("vacantes_store"), {
-            onFinish: () => {
-                console.log("Listo");
-            },
-        });
-    };
+    const submit = () => {};
 
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Crear vacante
+                    Vacantes de Trabajo en TI
                 </h2>
             }
         >
@@ -116,6 +125,7 @@ export default function Dashboard({ salarios, categorias }) {
                                             className="mt-2"
                                         />
                                     </div>
+
                                     <h2 className="text-xl font-semibold text-gray-700 border-b pb-2">
                                         Detalles del puesto
                                     </h2>
@@ -238,7 +248,7 @@ export default function Dashboard({ salarios, categorias }) {
 
                                 <div className="md:col-span-2 flex justify-end">
                                     <PrimaryButton disabled={processing}>
-                                        Guardar Vacante
+                                        Editar Vacante
                                     </PrimaryButton>
                                 </div>
                             </form>
