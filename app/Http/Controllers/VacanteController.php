@@ -16,7 +16,9 @@ class VacanteController extends Controller
      */
     public function index()
     {
-        return Inertia::render('vacantes/index');
+        return Inertia::render('vacantes/index',[
+            'vacantes' => Vacante::where('user_id', Auth::user()->id)->paginate(3)
+        ]);
     }
 
     /**
