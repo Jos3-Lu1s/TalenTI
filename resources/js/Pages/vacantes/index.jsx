@@ -58,7 +58,7 @@ export default function Dashboard({ vacantes }) {
                                                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                                                     <div>
                                                         <h3 className="text-lg font-semibold text-blue-700">
-                                                            {item.titulo}
+                                                            <a href={route('vacantes_show', item.id)}>{item.titulo}</a>
                                                         </h3>
                                                         <p className="text-sm text-gray-500">
                                                             {item.empresa}

@@ -70,7 +70,11 @@ class VacanteController extends Controller
      */
     public function show(Vacante $vacante)
     {
-        //
+        $vacante = $vacante->load('categoria');
+        $vacante = $vacante->load('salario');
+        return Inertia::render('vacantes/show', [
+            'vacante' => $vacante,
+        ]);
     }
 
     /**
