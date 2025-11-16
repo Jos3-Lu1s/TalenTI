@@ -16,7 +16,7 @@ class VacanteController extends Controller
      */
     public function index()
     {
-        return Inertia::render('vacantes/index',[
+        return Inertia::render('vacantes/index', [
             'vacantes' => Vacante::where('user_id', Auth::user()->id)->paginate(3)
         ]);
     }
@@ -47,6 +47,7 @@ class VacanteController extends Controller
             'imagen' => 'required|image|max:2048',
         ]);
 
+        $request->file('imagen')->store('vacantes', 'public');
         $nombreImagen = $request->file('imagen')->hashName();
 
         Vacante::create([
@@ -76,7 +77,7 @@ class VacanteController extends Controller
      */
     public function edit(Vacante $vacante)
     {
-        return Inertia::render('vacantes/edit',[
+        return Inertia::render('vacantes/edit', [
             'vacante' => $vacante,
             'salarios' => Salario::all(),
             'categorias' => Categoria::all(),
@@ -86,9 +87,42 @@ class VacanteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Vacante $vacante)
     {
-        //
+        $request->validate([
+            'titulo' => 'required',
+            'salario' => 'required',
+            'categoria' => 'required',
+            'empresa' => 'required',
+            'ultimo_dia' => 'required|date',
+            'descripcion' => 'required',
+            // 'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
+        ]);
+
+        $vacante->update([
+            'titulo' => $request->titulo,
+            'salario' => $request->salario,
+            'categoria' => $request->categoria,
+            'empresa' => $request->empresa,
+            'ultimo_dia' => $request->ultimo_dia,
+            'descripcion' => $request->descripcion,
+        ]);
+
+        if ($request->hasFile('imagen')) {
+            if ($vacante->imagen && file_exists(storage_path('app/public/vacantes/' . $vacante->imagen))) {
+                unlink(storage_path('app/public/vacantes/' . $vacante->imagen));
+            }
+
+            $nombreImagen = $request->file('imagen')->hashName();
+            $request->file('imagen')->store('vacantes', 'public');
+
+
+            $vacante->imagen = $nombreImagen;
+            $vacante->save();
+        }
+
+        // $nombreImagen = $request->file('imagen')->hashName();
+        return redirect()->route('dashboard');
     }
 
     /**

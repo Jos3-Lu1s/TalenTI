@@ -35,15 +35,42 @@ export default function Dashboard({ vacante, salarios, categorias }) {
     }, [vacante]);
 
     const [fileName, setFileName] = useState("");
+    const [imagePreview, setImagePreview] = useState(null);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
 
-        setData("imagen", file);
-        setFileName(file ? file.name : "");
+        if (file) {
+            const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+            if (!allowedTypes.includes(file.type)) {
+                alert("Solo se permiten imágenes de tipo JPEG, PNG o GIF.");
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                alert("El tamaño de la imagen debe ser menor a 5MB.");
+                return;
+            }
+
+            setData("imagen", file);
+            setFileName(file.name);
+
+            const reader = new FileReader();
+            reader.onloadend = () => setImagePreview(reader.result);
+            reader.readAsDataURL(file);
+        } else {
+            setImagePreview(null);
+        }
     };
 
-    const submit = () => {};
+    const submit = (e) => {
+        e.preventDefault();
+        console.log(data);
+        post(route("vacantes_update", vacante.id), {
+            onFinish: () => {
+                console.log("Listo");
+            },
+        });
+    };
 
     return (
         <AuthenticatedLayout
@@ -243,6 +270,29 @@ export default function Dashboard({ vacante, salarios, categorias }) {
                                             message={errors.imagen}
                                             className="mt-2"
                                         />
+                                    </div>
+                                    <div>
+                                        {imagePreview ? (
+                                            <img
+                                                src={imagePreview}
+                                                alt="Vista previa de la imagen"
+                                                className="object-cover rounded-lg mt-4"
+                                            />
+                                        ) : (
+                                            <div>
+                                                {vacante && vacante.imagen ? (
+                                                    <img
+                                                        src={`/storage/vacantes/${vacante.imagen}`}
+                                                        alt="Imagen de vacante"
+                                                        className="w-full h-auto object-cover rounded-lg"
+                                                    />
+                                                ) : (
+                                                    <p className="text-gray-600 text-sm">
+                                                        No hay imagen disponible
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
