@@ -1,14 +1,13 @@
+import SecondaryButton from "@/Components/SecondaryButton";
+import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 
-export default function Index({ vacantes }) {
-    console.log(vacantes);
-
+export default function Index({ vacantes, categorias, salarios, filtros }) {
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard" />
             <div className="relative bg-gray-50 py-20 lg:py-32 overflow-hidden">
-
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600">
@@ -35,6 +34,68 @@ export default function Index({ vacantes }) {
                         <span className="px-4 py-2 bg-pink-100 text-pink-700 rounded-full font-medium text-sm">
                             Mobile
                         </span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-white py-6">
+                <div className="max-w-7xl mx-auto px-4">
+                    <div className="bg-gray-100 border border-gray-200 rounded-lg p-4 shadow-sm">
+                        <form
+                            method="GET"
+                            action={route("welcome")}
+                            className="flex flex-col md:flex-row gap-4 items-center"
+                        >
+                            <div className="w-full md:w-1/3">
+                                <TextInput
+                                    type="text"
+                                    name="termino"
+                                    placeholder="Buscar vacantes..."
+                                    className="w-full px-3 py-2"
+                                    defaultValue={filtros.termino || ""}
+                                />
+                            </div>
+
+                            <div className="w-full md:w-1/3">
+                                <select
+                                    name="categoria"
+                                    defaultValue={filtros.categoria || ""}
+                                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                >
+                                    <option value="">Categoría</option>
+                                    {categorias.map((categoria) => (
+                                        <option
+                                            key={categoria.id}
+                                            value={categoria.id}
+                                        >
+                                            {categoria.categoria}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="w-full md:w-1/3">
+                                <select
+                                    name="salario"
+                                    defaultValue={filtros.salario || ""}
+                                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                >
+                                    <option value="">Salario</option>
+                                    {salarios.map((salario) => (
+                                        <option
+                                            key={salario.id}
+                                            value={salario.id}
+                                        >
+                                            {salario.salario}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <SecondaryButton type="submit" className="py-3">
+                                Buscar
+                            </SecondaryButton>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -71,6 +132,22 @@ export default function Index({ vacantes }) {
                     </Link>
                 ))}
             </div>
+            {vacantes.links && (
+                <div className="mt-8 flex justify-center gap-2">
+                    {vacantes.links.map((link, index) => (
+                        <Link
+                            key={index}
+                            href={link.url || "#"}
+                            className={`px-3 py-1 border rounded ${
+                                link.active
+                                    ? "bg-indigo-500 text-white"
+                                    : "bg-white text-gray-700"
+                            }`}
+                            dangerouslySetInnerHTML={{ __html: link.label }}
+                        />
+                    ))}
+                </div>
+            )}
         </AuthenticatedLayout>
     );
 }
