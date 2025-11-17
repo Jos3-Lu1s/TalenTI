@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function Dashboard({ vacante }) {
     const [showmodal, setShowmodal] = useState(false);
-      const [cvSeleccionado, setCvSeleccionado] = useState("");
+    const [cvSeleccionado, setCvSeleccionado] = useState("");
     const toggleModal = (cv) => {
         setCvSeleccionado(cv);
         setShowmodal(!showmodal);
@@ -48,6 +48,11 @@ export default function Dashboard({ vacante }) {
                                     src={`/storage/vacantes/${vacante.imagen}`}
                                     alt={vacante.titulo}
                                     className="w-full object-contain rounded-md shadow-sm"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src =
+                                            "/storage/img/default.png";
+                                    }}
                                 />
                                 <div className="space-y-3">
                                     <h3 className="text-2xl font-bold text-gray-800">
@@ -70,15 +75,51 @@ export default function Dashboard({ vacante }) {
                                 </div>
                             </div>
 
-                            <div className="md:w-2/3 bg-white shadow-lg rounded-xl p-6">
+                            <div className="md:w-2/3 bg-white rounded-xl p-6">
                                 <h3 className="text-2xl font-semibold text-gray-800 mb-4">
                                     Candidatos ({vacante.candidatos.length})
                                 </h3>
 
                                 {vacante.candidatos.length === 0 ? (
-                                    <p className="text-gray-500">
-                                        Aún no hay candidatos para esta vacante.
-                                    </p>
+                                    <div className="flex flex-col items-center gap-4">
+                                        <svg
+                                            className="w-32 h-32 text-gray-300"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 64 64"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <circle
+                                                cx="32"
+                                                cy="32"
+                                                r="30"
+                                                strokeWidth="2"
+                                            />
+                                            <line
+                                                x1="32"
+                                                y1="16"
+                                                x2="32"
+                                                y2="48"
+                                                strokeWidth="2"
+                                            />
+                                            <line
+                                                x1="16"
+                                                y1="32"
+                                                x2="48"
+                                                y2="32"
+                                                strokeWidth="2"
+                                            />
+                                        </svg>
+
+                                        <p className="text-gray-500 text-lg">
+                                            Aún no hay candidatos para esta
+                                            vacante.
+                                        </p>
+                                        <p className="text-gray-400 text-sm">
+                                            Cuando alguien postule, aparecerá
+                                            aquí automáticamente.
+                                        </p>
+                                    </div>
                                 ) : (
                                     <div className="space-y-4">
                                         {vacante.candidatos.map((candidato) => (
@@ -109,7 +150,9 @@ export default function Dashboard({ vacante }) {
                                                 <div>
                                                     <SecondaryButton
                                                         onClick={() =>
-                                                            toggleModal(candidato.cv)
+                                                            toggleModal(
+                                                                candidato.cv
+                                                            )
                                                         }
                                                         className="text-blue-600 hover:underline font-medium"
                                                     >

@@ -47,52 +47,55 @@ export default function Dashboard({ vacante }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="bg-white shadow-lg rounded-xl overflow-hidden">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-8">
-                            <div className="space-y-6">
-                                <h2 className="text-4xl font-bold text-gray-800">
-                                    {vacante.titulo}
-                                </h2>
+                            <div className="flex flex-col justify-between">
+                                <div className="space-y-4 sm:space-y-6 px-4 sm:px-6 lg:px-8">
+                                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">
+                                        {vacante.titulo}
+                                    </h2>
 
-                                <p className="text-gray-600">
-                                    {vacante.descripcion}
-                                </p>
+                                    <p className="text-gray-600 text-sm sm:text-base lg:text-lg">
+                                        {vacante.descripcion}
+                                    </p>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div className="flex items-center">
-                                        <span className="font-semibold text-gray-700">
-                                            Empresa:{" "}
-                                        </span>
-                                        <span className="ml-2 text-gray-600">
-                                            {vacante.empresa}
-                                        </span>
-                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                        <div className="sm:items-center">
+                                            <p className="font-semibold text-gray-700">
+                                                Empresa:
+                                            </p>
+                                            <p className="ml-0 sm:ml-2 text-gray-600">
+                                                {vacante.empresa}
+                                            </p>
+                                        </div>
 
-                                    <div className="flex items-center">
-                                        <span className="font-semibold text-gray-700">
-                                            Último Día para Aplicar:{" "}
-                                        </span>
-                                        <span className="ml-2 text-gray-600">
-                                            {vacante.ultimo_dia}
-                                        </span>
-                                    </div>
+                                        <div className="sm:items-center">
+                                            <p className="font-semibold text-gray-700">
+                                                Último Día para Aplicar:
+                                            </p>
+                                            <p className="ml-0 sm:ml-2 text-gray-600">
+                                                {vacante.ultimo_dia}
+                                            </p>
+                                        </div>
 
-                                    <div className="flex items-center">
-                                        <span className="font-semibold text-gray-700">
-                                            Categoría:{" "}
-                                        </span>
-                                        <span className="ml-2 text-gray-600">
-                                            {vacante.categoria.categoria}
-                                        </span>
-                                    </div>
+                                        <div className="sm:items-center">
+                                            <p className="font-semibold text-gray-700">
+                                                Categoría:
+                                            </p>
+                                            <p className="ml-0 sm:ml-2 text-gray-600">
+                                                {vacante.categoria.categoria}
+                                            </p>
+                                        </div>
 
-                                    <div className="flex items-center">
-                                        <span className="font-semibold text-gray-700">
-                                            Salario:{" "}
-                                        </span>
-                                        <span className="ml-2 text-gray-600">
-                                            {vacante.salario.salario}
-                                        </span>
+                                        <div className="sm:items-center">
+                                            <p className="font-semibold text-gray-700">
+                                                Salario:
+                                            </p>
+                                            <p className="ml-0 sm:ml-2 text-gray-600">
+                                                {vacante.salario.salario}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+
                                 {user && user.rol === 1 && (
                                     <form
                                         noValidate
@@ -173,8 +176,8 @@ export default function Dashboard({ vacante }) {
                                                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200"
                                             >
                                                 Inicia sesión
-                                            </Link>
-                                            {" "}o{" "}
+                                            </Link>{" "}
+                                            o{" "}
                                             <Link
                                                 href={route("register")}
                                                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200"
@@ -190,6 +193,11 @@ export default function Dashboard({ vacante }) {
                                     src={`/storage/vacantes/${vacante.imagen}`}
                                     alt="Imagen de vacante"
                                     className="w-full h-auto rounded-md shadow-sm max-w-md"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src =
+                                            "/storage/img/default.png";
+                                    }}
                                 />
                             </div>
                         </div>

@@ -35,7 +35,7 @@ class HomeController extends Controller
         }
 
         $vacantes = $query->latest()
-            ->paginate(10)
+            ->paginate(9)
             ->withQueryString();
 
         return Inertia::render('home/index', [
