@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import { showToast } from "@/utils/toast";
 
 export default function Dashboard({ vacante }) {
     const user = usePage().props.auth.user;
@@ -29,6 +30,9 @@ export default function Dashboard({ vacante }) {
             onSuccess: () => {
                 reset("cv");
                 setFileName("");
+                showToast(
+                    "¡Postulación exitosa! - Notificación enviada al reclutador.",
+                );
             },
         });
     };

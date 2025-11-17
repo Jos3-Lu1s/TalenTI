@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidato;
 use App\Models\Vacante;
+use App\Notifications\NuevoCandidato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -47,6 +48,15 @@ class CandidatoController extends Controller
             'user_id' => Auth::id(),
             'vacante_id' => $request->vacante_id,
         ]);
+
+        $vacante = Vacante::find($request->vacante_id);
+        $creador = $vacante->reclutador;
+
+        $creador->notify(new NuevoCandidato(
+            $vacante->id,
+            $vacante->titulo,
+            $creador->id
+        ));
 
         return redirect()->back();
     }
