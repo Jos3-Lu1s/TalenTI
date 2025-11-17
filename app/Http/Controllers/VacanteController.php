@@ -19,7 +19,7 @@ class VacanteController extends Controller
     {
         Gate::authorize('viewAny', Vacante::class);
         return Inertia::render('vacantes/index', [
-            'vacantes' => Vacante::where('user_id', Auth::user()->id)->paginate(3)
+            'vacantes' => Vacante::where('user_id', Auth::user()->id)->with('candidatos')->paginate(3)
         ]);
     }
 

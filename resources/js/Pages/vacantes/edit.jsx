@@ -18,9 +18,7 @@ export default function Dashboard({ vacante, salarios, categorias }) {
     });
 
     useEffect(() => {
-        console.log(vacante);
-        console.log(salarios);
-        console.log(categorias);
+
         if (vacante) {
             setData({
                 titulo: vacante.titulo,

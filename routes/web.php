@@ -25,6 +25,7 @@ Route::delete('/vacantes/{vacante}', [VacanteController::class, 'destroy'])->mid
 Route::get('/vacantes/{vacante}', [VacanteController::class, 'show'])->name('vacantes_show');
 
 Route::post('/vacantes', [CandidatoController::class, 'store'])->name('candidatos_store');
+Route::get('/candidatos/{vacante}', [CandidatoController::class, 'index'])->middleware(['auth', 'verified'])->name('candidatos_index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

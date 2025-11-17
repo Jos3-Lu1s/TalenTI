@@ -2,7 +2,7 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 export default function Dashboard({ vacante }) {
@@ -93,7 +93,7 @@ export default function Dashboard({ vacante }) {
                                         </span>
                                     </div>
                                 </div>
-                                {user.rol === 1 && (
+                                {user && user.rol === 1 && (
                                     <form
                                         noValidate
                                         onSubmit={submit}
@@ -168,12 +168,19 @@ export default function Dashboard({ vacante }) {
                                     <div className="mt-6 text-center">
                                         <p className="text-gray-700 text-lg">
                                             ¿Deseas postularte a esta vacante?{" "}
-                                            <a
+                                            <Link
+                                                href={route("login")}
+                                                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200"
+                                            >
+                                                Inicia sesión
+                                            </Link>
+                                            {" "}o{" "}
+                                            <Link
                                                 href={route("register")}
                                                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200"
                                             >
                                                 Regístrate
-                                            </a>
+                                            </Link>
                                         </p>
                                     </div>
                                 )}

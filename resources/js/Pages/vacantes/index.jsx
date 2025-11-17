@@ -1,12 +1,12 @@
 import Pagination from "@/Components/Pagination";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import Swal from "sweetalert2";
-import { showToast } from '@/utils/toast';
+import { showToast } from "@/utils/toast";
 
 export default function Dashboard({ vacantes }) {
     const { delete: eliminarVacante } = useForm();
-
+    
     const mostrarAlerta = (id) => {
         Swal.fire({
             title: "¿Estás seguro?",
@@ -23,7 +23,11 @@ export default function Dashboard({ vacantes }) {
                         showToast(`El ítem con ID: ${id} ha sido eliminado.`);
                     },
                     onError: () => {
-                        showToast("Hubo un problema al intentar eliminar el ítem.","error",'#f27474');
+                        showToast(
+                            "Hubo un problema al intentar eliminar el ítem.",
+                            "error",
+                            "#f27474"
+                        );
                     },
                 });
             }
@@ -58,7 +62,14 @@ export default function Dashboard({ vacantes }) {
                                                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                                                     <div>
                                                         <h3 className="text-lg font-semibold text-blue-700">
-                                                            <a href={route('vacantes_show', item.id)}>{item.titulo}</a>
+                                                            <Link
+                                                                href={route(
+                                                                    "vacantes_show",
+                                                                    item.id
+                                                                )}
+                                                            >
+                                                                {item.titulo}
+                                                            </Link>
                                                         </h3>
                                                         <p className="text-sm text-gray-500">
                                                             {item.empresa}
@@ -66,14 +77,16 @@ export default function Dashboard({ vacantes }) {
                                                     </div>
 
                                                     <div className="flex flex-wrap sm:flex-nowrap gap-2">
-                                                        <a
-                                                            href="#"
-                                                            className="px-3 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 w-full sm:w-auto"
-                                                        >
-                                                            Ver candidatos
-                                                        </a>
 
-                                                        <a
+                                                        <Link href={route(
+                                                                "candidatos_index",
+                                                                item.id
+                                                            )}
+                                                            className="px-3 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 w-full sm:w-auto">
+                                                            Ver candidatos - {item.candidatos.length}
+                                                        </Link>
+
+                                                        <Link
                                                             href={route(
                                                                 "vacantes_edit",
                                                                 item.id
@@ -81,9 +94,9 @@ export default function Dashboard({ vacantes }) {
                                                             className="px-3 py-1.5 text-xs bg-indigo-500 text-white rounded-md hover:bg-indigo-600 w-full sm:w-auto"
                                                         >
                                                             Editar
-                                                        </a>
+                                                        </Link>
 
-                                                        <a
+                                                        <Link
                                                             href="#"
                                                             onClick={() =>
                                                                 mostrarAlerta(
@@ -93,7 +106,7 @@ export default function Dashboard({ vacantes }) {
                                                             className="px-3 py-1.5 text-xs bg-red-500 text-white rounded-md hover:bg-red-600 w-full sm:w-auto"
                                                         >
                                                             Eliminar
-                                                        </a>
+                                                        </Link>
                                                     </div>
                                                 </div>
 

@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidato;
+use App\Models\Vacante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CandidatoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Vacante $vacante)
     {
-        //
+        $vacante = $vacante->load(['candidatos.usuario']);
+        return Inertia::render('candidatos/index', [
+            'vacante' => $vacante,
+        ]);
     }
 
     /**
