@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacanteController;
 use Illuminate\Foundation\Application;
@@ -29,6 +30,9 @@ Route::get('/vacantes/{vacante}', [VacanteController::class, 'show'])->name('vac
 
 Route::post('/candidatos', [CandidatoController::class, 'store'])->name('candidatos_store');
 Route::get('/candidatos/{vacante}', [CandidatoController::class, 'index'])->middleware(['auth', 'verified'])->name('candidatos_index');
+
+Route::get('/notificaciones', NotificacionController::class)->name('notificacion')->middleware('auth');;
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

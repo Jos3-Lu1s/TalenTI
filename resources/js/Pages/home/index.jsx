@@ -1,7 +1,7 @@
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 
 export default function Index({ vacantes, categorias, salarios, filtros }) {
     return (
@@ -104,7 +104,7 @@ export default function Index({ vacantes, categorias, salarios, filtros }) {
                 {vacantes.data.map((vacante) => (
                     <Link
                         key={vacante.id}
-                        href={`/vacantes/${vacante.id}`}
+                        href={route("vacantes_show", vacante.id)}
                         className="block bg-white shadow-md rounded-lg p-5 border
                  hover:shadow-xl hover:border-blue-500 transition group"
                     >
@@ -133,9 +133,10 @@ export default function Index({ vacantes, categorias, salarios, filtros }) {
                 ))}
             </div>
             {vacantes.links && (
-                <div className="mt-8 flex justify-center gap-2">
+                <div className="mt-8 pb-20 flex flex-wrap justify-center gap-2">
                     {vacantes.links.map((link, index) => (
                         <Link
+                            preserveScroll
                             key={index}
                             href={link.url || "#"}
                             className={`px-3 py-1 border rounded ${

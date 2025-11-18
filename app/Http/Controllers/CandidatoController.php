@@ -58,7 +58,9 @@ class CandidatoController extends Controller
             $creador->id
         ));
 
-        return redirect()->back();
+        // return redirect()->back();
+        return redirect()
+            ->route('welcome');
     }
 
     /**

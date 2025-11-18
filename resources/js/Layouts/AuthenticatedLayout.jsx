@@ -19,11 +19,11 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo size="text-5xl" />
                                 </Link>
                             </div>
 
-                            {user && (
+                            {user?.rol === 2 && (
                                 <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                     <NavLink
                                         href={route("dashboard")}
@@ -72,6 +72,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                         </Dropdown.Trigger>
 
                                         <Dropdown.Content>
+                                            {user?.rol === 2 && (
+                                                <Dropdown.Link
+                                                    href={route("notificacion")}
+                                                    method="get"
+                                                    as="button"
+                                                >
+                                                    Mis notificaciones
+                                                </Dropdown.Link>
+                                            )}
                                             <Dropdown.Link
                                                 href={route("profile.edit")}
                                             >
@@ -148,7 +157,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         " sm:hidden"
                     }
                 >
-                    {user ? (
+                    {user?.rol === 2 && (
                         <div className="space-y-1 pb-3 pt-2">
                             <ResponsiveNavLink
                                 href={route("dashboard")}
@@ -163,16 +172,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                 Crear vacante
                             </ResponsiveNavLink>
                         </div>
-                    ):(
+                    )}
+                    {!user && (
                         <div className="space-y-1 pb-3 pt-2">
-                            <ResponsiveNavLink
-                                href={route("login")}
-                            >
+                            <ResponsiveNavLink href={route("login")}>
                                 Iniciar sesión
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                href={route("register")}
-                            >
+                            <ResponsiveNavLink href={route("register")}>
                                 Registrate
                             </ResponsiveNavLink>
                         </div>

@@ -45,7 +45,7 @@ class NuevoCandidato extends Notification
             ->greeting('¡Hola ' . $notifiable->name . '!')
             ->line("Se ha registrado un nuevo candidato para tu vacante: **{$this->nombre_vacante}**.")
             ->line('Puedes revisar el perfil del candidato y su CV haciendo clic en el botón de abajo.')
-            ->action('Ver candidato', url('/notificaciones/' . $this->id_vacante))
+            ->action('Ver candidato', url('/notificaciones'))
             ->line('Gracias por usar TalenTI, ¡tu plataforma de reclutamiento confiable!');
     }
 
