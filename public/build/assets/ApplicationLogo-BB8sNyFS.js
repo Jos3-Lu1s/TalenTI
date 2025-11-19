@@ -1,1 +1,0 @@
-import{j as t}from"./app-CyBYZiT2.js";function n({size:e="text-6xl"}){return t.jsxs("h1",{className:`${e} font-black tracking-tight select-none`,children:[t.jsx("span",{className:"text-blue-700 dark:text-blue-400",children:"Talen"}),t.jsx("span",{className:"text-cyan-500 dark:text-cyan-300",children:"TI"})]})}export{n as A};
