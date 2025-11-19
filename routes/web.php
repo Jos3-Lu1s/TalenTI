@@ -20,7 +20,7 @@ use Inertia\Inertia;
 
 Route::get('/', HomeController::class)->name('welcome');
 
-Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified','rol.reclutador'])->name('dashboard');
 Route::get('/vacantes/create', [VacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes_create');
 Route::post('/vacantes', [VacanteController::class, 'store'])->middleware(['auth', 'verified'])->name('vacantes_store');
 Route::get('/vacantes/{vacante}/edit', [VacanteController::class, 'edit'])->middleware(['auth', 'verified'])->name('vacantes_edit');
@@ -31,7 +31,7 @@ Route::get('/vacantes/{vacante}', [VacanteController::class, 'show'])->name('vac
 Route::post('/candidatos', [CandidatoController::class, 'store'])->name('candidatos_store');
 Route::get('/candidatos/{vacante}', [CandidatoController::class, 'index'])->middleware(['auth', 'verified'])->name('candidatos_index');
 
-Route::get('/notificaciones', NotificacionController::class)->name('notificacion')->middleware('auth');;
+Route::get('/notificaciones', NotificacionController::class)->name('notificacion')->middleware(['auth','verified','rol.reclutador']);;
 
 
 Route::middleware('auth')->group(function () {
