@@ -109,8 +109,8 @@ class VacanteController extends Controller
 
         $vacante->update([
             'titulo' => $request->titulo,
-            'salario' => $request->salario,
-            'categoria' => $request->categoria,
+            'salario_id' => $request->salario,
+            'categoria_id' => $request->categoria,
             'empresa' => $request->empresa,
             'ultimo_dia' => $request->ultimo_dia,
             'descripcion' => $request->descripcion,
