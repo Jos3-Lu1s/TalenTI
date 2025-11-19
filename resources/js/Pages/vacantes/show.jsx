@@ -45,7 +45,7 @@ export default function Dashboard({ vacante }) {
                 </h2>
             }
         >
-            <Head title="Dashboard" />
+            <Head title={vacante.titulo} />
 
             <div className="py-12 bg-gray-50">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

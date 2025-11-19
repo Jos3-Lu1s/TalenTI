@@ -6,7 +6,7 @@ import { showToast } from "@/utils/toast";
 
 export default function Dashboard({ vacantes }) {
     const { delete: eliminarVacante } = useForm();
-    
+
     const mostrarAlerta = (id) => {
         Swal.fire({
             title: "¿Estás seguro?",
@@ -42,7 +42,7 @@ export default function Dashboard({ vacantes }) {
                 </h2>
             }
         >
-            <Head title="Dashboard" />
+            <Head title="Vacantes" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

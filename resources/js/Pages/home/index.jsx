@@ -1,12 +1,12 @@
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, } from "@inertiajs/react";
 
 export default function Index({ vacantes, categorias, salarios, filtros }) {
     return (
         <AuthenticatedLayout>
-            <Head title="Dashboard" />
+            <Head title="Inicio" />
             <div className="relative bg-gray-50 py-20 lg:py-32 overflow-hidden">
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">
