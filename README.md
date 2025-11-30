@@ -1,6 +1,6 @@
 # TalenTI – Guía de Instalación y Configuración
 
-![TalenTi](doc/TalenTI.png)
+![TalenTi](doc/TalenTi.png)
 
 ## Requisitos previos
 
