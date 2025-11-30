@@ -1,59 +1,166 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TalenTI – Guía de Instalación y Configuración
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![TalenTi](doc/TalenTI.png)
 
-## About Laravel
+## Requisitos previos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. [Git](https://git-scm.com/): Necesario para clonar el repositorio.
+2. [PHP](https://www.php.net/): Laravel requiere PHP y algunas extensiones habilitadas.
+3. [Composer](https://getcomposer.org/): Gestor de dependencias de PHP.
+4. [Node.js](https://nodejs.org/es): Requerido para compilar assets del frontend.
+5. Cuenta de [Mailtrap](https://mailtrap.io/): Usada para pruebas de envío de correos.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Base de datos (MySQL o cualquier motor compatible)
 
-## Learning Laravel
+El backend requiere una **base de datos**, pero no es obligatorio usar MySQL específicamente.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Laravel es compatible con varios sistemas de gestión de bases de datos, por lo que puedes usar el que prefieras.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Motores soportados por Laravel:
 
-## Laravel Sponsors
+- MySQL / MariaDB (recomendado)
+- PostgreSQL
+- SQLite
+- SQL Server
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Solo debes asegurarte de:
 
-### Premium Partners
+1. Tener el motor de base de datos instalado.
+2. Crear una base de datos para el proyecto.
+3. Configurar correctamente el archivo .env.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 1. Clonar el repositorio
 
-## Contributing
+```bash
+git clone https://github.com/Jos3-Lu1s/TalenTI.git
+cd TalenTI
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 2. Instalar las dependencias del backend (Laravel)
 
-## Code of Conduct
+### Instalar Composer
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Si no lo tienes, puedes descargarlo [aqui](https://getcomposer.org/).
 
-## Security Vulnerabilities
+### Instalar dependencias de PHP y node
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer install
+```
 
-## License
+```bash
+npm install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 3. Configurar el archivo `.env`
+
+Si el proyecto no incluye el archivo `.env`, crea uno a partir del ejemplo:
+
+```bash
+cp .env.example .env
+```
+
+Genera la clave de aplicación:
+
+```bash
+php artisan key:generate
+```
+
+## 4. Configurar la base de datos
+
+> Crea la base de datos.
+
+Asegúrate de configurar los parámetros correctos en el archivo `.env`:
+
+Por ejemplo, si usas MySQL, necesitarás algo como:
+
+```ini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_de_base_de_datos
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+```
+
+Ejemplo para PostgreSQL:
+
+```ini
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=talenti
+DB_USERNAME=postgres
+DB_PASSWORD=1234
+```
+
+> Asegúrate de haber creado la base de datos antes de continuar.
+
+Ejecuta las migraciones:
+
+```bash
+php artisan migrate
+```
+
+Ejecuta los seeders:
+
+```bash
+php artisan db:seed
+```
+
+## 5. Configurar servicio de correo (Mailtrap)
+
+Mailtrap permite recibir y visualizar correos sin enviarlos realmente, ideal para entornos locales.
+
+1. Crea una cuenta en: [Mailtrap](https://mailtrap.io/)
+2. Crea una inbox (bandeja) dentro de Mailtrap.
+3. Copia las credenciales SMTP que te da Mailtrap y pégalas en tu archivo `.env`:
+
+```ini
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=tu_usuario_mailtrap
+MAIL_PASSWORD=tu_contraseña_mailtrap
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="no-reply@talenti.com"
+MAIL_FROM_NAME="TalenTI"
+```
+
+## 6. Almacenamiento de documentos
+
+El proyecto utiliza almacenamiento público mediante un enlace simbólico. Ejecuta:
+
+```bash
+php artisan storage:link
+```
+
+Este comando crea un enlace simbólico llamado `public/storage` que apunta a `storage/app/public`, permitiendo que los archivos se sirvan correctamente.
+
+## 7. Servir el proyecto
+
+### Servir el frontend
+
+```bash
+npm run dev
+```
+
+Disponible en: [http://localhost:3000](http://localhost:3000)
+
+### Servir el backend
+
+```bash
+php artisan serve
+```
+
+Disponible en: [http://localhost:8000](http://localhost:8000)
+
+## Acceder a la aplicación
+
+Backend (Laravel): [http://localhost:8000](http://localhost:8000)
+
+Frontend (React): [http://localhost:3000](http://localhost:3000)
+
+Si todo está bien configurado, deberías ver tu aplicación funcionando.
